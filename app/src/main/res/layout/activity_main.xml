@@ -17,7 +17,7 @@
         <TextView
             android:id="@+id/tvNumbers"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="22dp"
             android:layout_gravity="center"
             android:layout_margin="20dp"
             android:gravity="center"
@@ -39,21 +39,25 @@
     <LinearLayout
         style="@style/buttonRow">
         <Button style="@style/buttonOperations"
+            android:onClick="setAllClearClick"
             android:id="@+id/btnAC"
             android:text="AC">
 
         </Button>
         <Button style="@style/buttonOperations"
+            android:onClick="setBackspaceClick"
             android:id="@+id/btnBack"
             android:text="Ba">
 
         </Button>
         <Button style="@style/buttonOperations"
             android:id="@+id/btnPercentage"
+            android:onClick="setOperatorClick"
             android:text="%">
 
         </Button>
         <Button style="@style/buttonOperations"
+            android:onClick="setOperatorClick"
             android:id="@+id/btnDivide"
             android:text="/">
 
@@ -64,11 +68,13 @@
     <LinearLayout
         style="@style/buttonRow">
         <Button style="@style/buttonNumber"
+            android:onClick="setDigitClick"
             android:id="@+id/btn7"
             android:text="7">
 
         </Button>
         <Button style="@style/buttonNumber"
+            android:onClick="setDigitClick"
             android:id="@+id/btn8"
             android:text="8">
 
@@ -79,6 +85,7 @@
 
         </Button>
         <Button style="@style/buttonOperations"
+            android:onClick="setOperatorClick"
             android:id="@+id/btnMultiplication"
             android:text="x">
 
@@ -89,21 +96,25 @@
     <LinearLayout
         style="@style/buttonRow">
         <Button style="@style/buttonNumber"
+            android:onClick="setDigitClick"
             android:id="@+id/btn4"
             android:text="4">
 
         </Button>
         <Button style="@style/buttonNumber"
+            android:onClick="setDigitClick"
             android:id="@+id/btn5"
             android:text="5">
 
         </Button>
         <Button style="@style/buttonNumber"
+            android:onClick="setDigitClick"
             android:id="@+id/btn6"
             android:text="6">
 
         </Button>
         <Button style="@style/buttonOperations"
+            android:onClick="setOperatorClick"
             android:id="@+id/btnMinus"
             android:text="-"
             android:textSize="50dp">
@@ -116,20 +127,24 @@
         style="@style/buttonRow">
         <Button style="@style/buttonNumber"
             android:id="@+id/btn1"
+            android:onClick="setDigitClick"
             android:text="1">
 
         </Button>
         <Button style="@style/buttonNumber"
+            android:onClick="setDigitClick"
             android:id="@+id/btn2"
             android:text="2">
 
         </Button>
         <Button style="@style/buttonNumber"
+            android:onClick="setDigitClick"
             android:id="@+id/btn3"
             android:text="3">
 
         </Button>
         <Button style="@style/buttonOperations"
+            android:onClick="setOperatorClick"
             android:id="@+id/btnPlus"
             android:text="+">
 
@@ -141,11 +156,13 @@
         style="@style/buttonRow">
         <Button style="@style/buttonNumber"
             android:id="@+id/btnDecimal"
+            android:onClick="setOperatorClick"
             android:layout_weight="1"
             android:text=".">
 
         </Button>
         <Button style="@style/buttonNumber"
+            android:onClick="setDigitClick"
             android:id="@+id/btn0"
             android:layout_weight="1"
             android:text="0">
@@ -154,10 +171,10 @@
 
         </Button>
         <Button style="@style/buttonNumber"
+            android:onClick="setEqualClick"
             android:id="@+id/btnEquals"
             android:layout_weight="2"
             android:text="="
-
             android:background="@color/orange">
 
         </Button>

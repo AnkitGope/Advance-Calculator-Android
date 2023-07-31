@@ -2,87 +2,112 @@ package com.example.advancecalculator
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.Button
 import com.example.advancecalculator.databinding.ActivityMainBinding
+import net.objecthunter.exp4j.Expression
 import net.objecthunter.exp4j.ExpressionBuilder
+import java.lang.ArithmeticException
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
-    lateinit var binding : ActivityMainBinding
+    private lateinit var binding : ActivityMainBinding
+
+    var lastNumeric=false
+    var stateError= false
+    var lastDot=false
+
+    lateinit var expression: Expression
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnAC.setOnClickListener {
-            binding.tvNumbers.text=""
-            binding.tvResult.text=""
-        }
-        binding.btn0.setOnClickListener {
-            binding.tvNumbers.append("0")
-        }
-        binding.btn1.setOnClickListener {
-            binding.tvNumbers.append("1")
-        }
-        binding.btn2.setOnClickListener {
-            binding.tvNumbers.append("2")
-        }
-        binding.btn3.setOnClickListener {
-            binding.tvNumbers.append("3")
-        }
-        binding.btn4.setOnClickListener {
-            binding.tvNumbers.append("4")
-        }
-        binding.btn5.setOnClickListener {
-            binding.tvNumbers.append("5")
-        }
-        binding.btn6.setOnClickListener {
-            binding.tvNumbers.append("6")
-        }
-        binding.btn7.setOnClickListener {
-            binding.tvNumbers.append("7")
-        }
-        binding.btn8.setOnClickListener {
-            binding.tvNumbers.append("8")
-        }
-        binding.btn9.setOnClickListener {
-            binding.tvNumbers.append("9")
-        }
-        binding.btnDecimal.setOnClickListener {
-            binding.tvNumbers.append(".")
-        }
-        binding.btnPlus.setOnClickListener {
-            binding.tvNumbers.append("+")
-        }
-        binding.btnMinus.setOnClickListener {
-            binding.tvNumbers.append("-")
-        }
-        binding.btnMultiplication.setOnClickListener {
-            binding.tvNumbers.append("*")
-        }
-        binding.btnDivide.setOnClickListener {
-            binding.tvNumbers.append("/")
-        }
-        binding.btnPercentage.setOnClickListener {
-            binding.tvNumbers.append("%")
-        }
-        binding.btnEquals.setOnClickListener {
-            val expression =ExpressionBuilder(binding.tvNumbers.text.toString()).build()
-            val result = expression.evaluate()
-            val longResult= result.toLong()
+    }
 
-            if(result ==longResult.toDouble() ){
-                binding.tvResult.text= longResult.toString()
+    fun setDigitClick(view: View) {
+        if(stateError){
+            binding.tvNumbers.text=(view as Button).text
 
-            }else{
-                binding.tvResult.text= result.toString()
-            }
+            stateError= false
+        }else{
+            binding.tvNumbers.append((view as Button).text)
         }
-
-
-
-
-
-
+        lastNumeric= true
+        onAnswer()
 
     }
+
+
+    fun setOperatorClick(view: View) {
+        if(!stateError && lastNumeric){
+            binding.tvNumbers.append((view as Button).text)
+            lastDot =false
+            lastNumeric=false
+             onAnswer()
+
+        }
+
+    }
+
+
+    fun setAllClearClick(view: View) {
+
+        binding.tvNumbers.text=""
+        binding.tvResult.text=""
+        lastNumeric=false
+        stateError= false
+        lastDot= false
+
+    }
+
+
+    fun setBackspaceClick(view: View) {
+
+        binding.tvNumbers.text=binding.tvResult.text.dropLast(1)
+
+        try {
+            val lastChar =binding.tvNumbers.text.toString().last()
+
+            if(lastChar.isDigit()){
+                onAnswer()
+            }
+
+        }catch (e: Exception){
+            binding.tvResult.text=""
+            Log.e("last char error",e.toString())
+
+        }
+
+    }
+
+
+    fun setEqualClick(view: View) {
+
+        onAnswer()
+        binding.tvNumbers.text=binding.tvResult.text.toString().drop(1)
+    }
+
+    fun onAnswer(){
+        if(lastNumeric &&  !stateError){
+
+            val txt= binding.tvNumbers.text.toString()
+            expression= ExpressionBuilder(txt).build()
+
+            try {
+                val result =expression.evaluate()
+                binding.tvResult.text = "="+result.toString()
+            }catch (exe: ArithmeticException){
+                Log.e("evaluate the value ",exe.toString())
+                binding.tvResult.text="Error"
+                stateError = true
+                lastNumeric =false
+            }
+
+        }
+    }
+
+
 }
